@@ -20,7 +20,7 @@ This document should help Codex understand:
 
 The following diagram represents the main MVP database structure:
 
-![School Management Platform ERD](./mermaid-diagram.png)
+![School Management Platform ERD](./assets/mermaid-diagram.png)
 
 ---
 
