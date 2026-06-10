@@ -12,6 +12,7 @@ from apps.academics.views import (
 from apps.accounts.views import UserViewSet
 from apps.attendance.views import AttendanceRecordViewSet
 from apps.notes.views import TeacherNoteViewSet
+from apps.payments.views import StudentPaymentViewSet
 from apps.schools.views import SchoolView
 
 router = DefaultRouter()
@@ -36,6 +37,7 @@ router.register(
 )
 router.register('attendance', AttendanceRecordViewSet, basename='attendance')
 router.register('teacher-notes', TeacherNoteViewSet, basename='teacher-note')
+router.register('payments', StudentPaymentViewSet, basename='payment')
 
 urlpatterns = [
     path('school/', SchoolView.as_view(), name='school'),

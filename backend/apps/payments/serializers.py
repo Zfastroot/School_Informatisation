@@ -7,6 +7,7 @@ class StudentPaymentSerializer(serializers.ModelSerializer):
     school_name = serializers.CharField(source='school.name', read_only=True)
     student_name = serializers.CharField(source='student', read_only=True)
     student_code = serializers.CharField(source='student.student_code', read_only=True)
+    student_id = serializers.IntegerField(write_only=True, required=False)
 
     class Meta:
         model = StudentPayment
@@ -15,6 +16,7 @@ class StudentPaymentSerializer(serializers.ModelSerializer):
             'school',
             'school_name',
             'student',
+            'student_id',
             'student_name',
             'student_code',
             'month',
@@ -24,3 +26,12 @@ class StudentPaymentSerializer(serializers.ModelSerializer):
             'status',
             'due_date',
         )
+        read_only_fields = ('id', 'school', 'student')
+
+    def create(self, validated_data):
+        validated_data.pop('student_id', None)
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        validated_data.pop('student_id', None)
+        return super().update(instance, validated_data)
