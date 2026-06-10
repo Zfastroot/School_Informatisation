@@ -30,7 +30,13 @@ class AttendanceRecordSerializer(serializers.ModelSerializer):
             'status',
             'marked_at',
         )
-        read_only_fields = ('marked_at',)
+        read_only_fields = ('id', 'school', 'marked_by_teacher', 'marked_at')
+
+
+class AttendanceRecordUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AttendanceRecord
+        fields = ('status',)
 
 
 class AttendanceMarkRecordSerializer(serializers.Serializer):

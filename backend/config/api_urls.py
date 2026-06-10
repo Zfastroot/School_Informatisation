@@ -10,6 +10,7 @@ from apps.academics.views import (
     TimetableSessionViewSet,
 )
 from apps.accounts.views import UserViewSet
+from apps.attendance.views import AttendanceRecordViewSet
 from apps.schools.views import SchoolView
 
 router = DefaultRouter()
@@ -32,6 +33,7 @@ router.register(
     TimetableSessionViewSet,
     basename='timetable-session',
 )
+router.register('attendance', AttendanceRecordViewSet, basename='attendance')
 
 urlpatterns = [
     path('school/', SchoolView.as_view(), name='school'),
