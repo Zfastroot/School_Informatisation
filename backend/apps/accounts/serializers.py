@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import DirectorProfile, ParentProfile, TeacherProfile, User
 
@@ -91,3 +92,41 @@ class ParentProfileSerializer(serializers.ModelSerializer):
             'school_name',
             'address',
         )
+
+
+class CurrentUserSerializer(serializers.ModelSerializer):
+    school_id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = ('id', 'full_name', 'email', 'phone', 'role', 'school_id')
+
+
+class LoginSerializer(serializers.Serializer):
+    email_or_phone = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, attrs):
+        email_or_phone = attrs['email_or_phone']
+        password = attrs['password']
+
+        user = User.objects.filter(email__iexact=email_or_phone).first()
+        if user is None:
+            user = User.objects.filter(phone=email_or_phone).first()
+
+        if user is None or not user.check_password(password):
+            raise serializers.ValidationError('Invalid login credentials.')
+        if not user.is_active:
+            raise serializers.ValidationError('This user account is inactive.')
+
+        attrs['user'] = user
+        return attrs
+
+    def create_token_response(self):
+        user = self.validated_data['user']
+        refresh = RefreshToken.for_user(user)
+        return {
+            'access': str(refresh.access_token),
+            'refresh': str(refresh),
+            'user': CurrentUserSerializer(user).data,
+        }
