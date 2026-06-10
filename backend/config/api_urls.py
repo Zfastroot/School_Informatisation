@@ -11,6 +11,14 @@ from apps.academics.views import (
 )
 from apps.accounts.views import UserViewSet
 from apps.attendance.views import AttendanceRecordViewSet
+from apps.dashboard.views import (
+    DirectorDashboardView,
+    ParentChildAttendanceCalendarView,
+    ParentChildCurrentStatusView,
+    ParentChildTodayAttendanceView,
+    ParentChildrenView,
+    TeacherDashboardView,
+)
 from apps.notes.views import TeacherNoteViewSet
 from apps.payments.views import StudentPaymentViewSet
 from apps.schools.views import SchoolView
@@ -41,5 +49,23 @@ router.register('payments', StudentPaymentViewSet, basename='payment')
 
 urlpatterns = [
     path('school/', SchoolView.as_view(), name='school'),
+    path('dashboard/director/', DirectorDashboardView.as_view(), name='dashboard-director'),
+    path('dashboard/teacher/', TeacherDashboardView.as_view(), name='dashboard-teacher'),
+    path('parent/children/', ParentChildrenView.as_view(), name='parent-children'),
+    path(
+        'parent/children/<int:student_id>/today-attendance/',
+        ParentChildTodayAttendanceView.as_view(),
+        name='parent-child-today-attendance',
+    ),
+    path(
+        'parent/children/<int:student_id>/attendance-calendar/',
+        ParentChildAttendanceCalendarView.as_view(),
+        name='parent-child-attendance-calendar',
+    ),
+    path(
+        'parent/children/<int:student_id>/current-status/',
+        ParentChildCurrentStatusView.as_view(),
+        name='parent-child-current-status',
+    ),
     path('', include(router.urls)),
 ]
