@@ -16,6 +16,7 @@ class ClassRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassRoom
         fields = ('id', 'school', 'school_name', 'name', 'level', 'academic_year')
+        read_only_fields = ('id', 'school')
 
 
 class SubjectSerializer(serializers.ModelSerializer):
@@ -24,6 +25,7 @@ class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
         fields = ('id', 'school', 'school_name', 'name')
+        read_only_fields = ('id', 'school')
 
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -47,6 +49,7 @@ class StudentSerializer(serializers.ModelSerializer):
             'gender',
             'is_active',
         )
+        read_only_fields = ('id', 'school')
 
     def get_full_name(self, obj):
         return str(obj)
@@ -91,6 +94,7 @@ class TeacherClassAssignmentSerializer(serializers.ModelSerializer):
             'subject',
             'subject_name',
         )
+        read_only_fields = ('id', 'school')
 
 
 class TimetableSessionSerializer(serializers.ModelSerializer):
@@ -117,3 +121,4 @@ class TimetableSessionSerializer(serializers.ModelSerializer):
             'start_time',
             'end_time',
         )
+        read_only_fields = ('id', 'school')

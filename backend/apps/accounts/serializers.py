@@ -22,7 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
             'school_name',
             'is_active',
         )
-        read_only_fields = ('id',)
+        read_only_fields = ('id', 'school')
         extra_kwargs = {
             'username': {'required': False},
         }
